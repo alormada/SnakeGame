@@ -4,21 +4,21 @@ class Snake:
     def __init__(self, screen):
         self.last_seg_pos = (0, 0)
         self.segments = []
-        x_pos = [0, -20, -40, -60, -80, -100]
         for i in range(3):
             self.create_segment(screen)
             self.head = self.segments[0]
             self.move_forward()
+        self.tail = self.segments[1:]
 
     def create_segment(self, screen):
-        tim = Turtle()
-        tim.penup()
-        tim.shape("square")
-        tim.color("white")
-        tim.goto(self.last_seg_pos)
-        tim.shapesize()
+        new_seg = Turtle()
+        new_seg.penup()
+        new_seg.shape("square")
+        new_seg.color("red")
+        new_seg.goto(self.last_seg_pos)
         screen.tracer(0)
-        self.segments.append(tim)
+        self.segments.append(new_seg)
+        self.tail = self.segments[1:]
 
     def left(self):
         if self.head.heading() != 0:
