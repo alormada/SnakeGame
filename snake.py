@@ -1,24 +1,35 @@
 from turtle import Turtle
 
 class Snake:
-    def __init__(self, screen):
+    def __init__(self):
         self.last_seg_pos = (0, 0)
+        self.count = 0
         self.segments = []
+        self.create_snake()
+        self.tail = []
+
+
+    def create_snake(self):
         for i in range(3):
-            self.create_segment(screen)
-            self.head = self.segments[0]
-            self.move_forward()
+            self.create_segment()
+            self.segments[i].goto(-i * 20, 0)
+            self.last_seg_pos = (-i * 20, 0)
+        self.head = self.segments[0]
         self.tail = self.segments[1:]
 
-    def create_segment(self, screen):
+    def create_segment(self):
         new_seg = Turtle()
         new_seg.penup()
         new_seg.shape("square")
         new_seg.color("red")
         new_seg.goto(self.last_seg_pos)
-        screen.tracer(0)
         self.segments.append(new_seg)
-        self.tail = self.segments[1:]
+
+    def reset_snake(self):
+        for seg in self.segments:
+            seg.goto(1000, 1000)
+        self.segments.clear()
+        self.create_snake()
 
     def left(self):
         if self.head.heading() != 0:
@@ -37,7 +48,14 @@ class Snake:
             self.head.setheading(270)
 
     def move_forward(self):
+        self.count += 1
+        # print(self.segments)
+        # print(f"{self.count}")
         for i in range(len(self.segments) - 1, 0, -1):
             self.segments[i].goto(self.segments[i-1].xcor(), self.segments[i-1].ycor())
+            # print(f"SEG i {i} POSITION: {self.segments[i].xcor()} {self.segments[i].ycor()}")
+            # print(f"SEG i - 1 {i - 1} POSITION: {self.segments[i - 1].xcor()} {self.segments[i - 1].ycor()}")
+        self.head = self.segments[0]
         self.head.forward(20)
+        # print(f"HEAD POSITION: {self.head.xcor()} {self.head.ycor()}")
         self.last_seg_pos = (self.segments[-1].xcor(), self.segments[-1].ycor())
