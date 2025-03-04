@@ -10,10 +10,12 @@ class Snake:
 
 
     def create_snake(self):
+        self.last_seg_pos = 0, 0
         for i in range(3):
             self.create_segment()
             self.segments[i].goto(-i * 20, 0)
             self.last_seg_pos = (-i * 20, 0)
+            print(self.segments[i].position())
         self.head = self.segments[0]
         self.tail = self.segments[1:]
 
@@ -48,7 +50,7 @@ class Snake:
             self.head.setheading(270)
 
     def move_forward(self):
-        self.count += 1
+        # if self.count != 2:
         # print(self.segments)
         # print(f"{self.count}")
         for i in range(len(self.segments) - 1, 0, -1):
@@ -59,3 +61,8 @@ class Snake:
         self.head.forward(20)
         # print(f"HEAD POSITION: {self.head.xcor()} {self.head.ycor()}")
         self.last_seg_pos = (self.segments[-1].xcor(), self.segments[-1].ycor())
+        # else:
+        #     for seg in self.segments:
+        #         seg.forward(2)
+        #     self.count += 1
+        #     self.last_seg_pos = (self.segments[-1].xcor(), self.segments[-1].ycor())
